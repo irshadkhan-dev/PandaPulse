@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Button } from "@repo/ui/button";
 import styles from "./page.module.css";
-
+import db from "@repo/db";
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -46,7 +46,7 @@ export default function Home() {
             Read our docs
           </a>
         </div>
-        <Button appName="docs" className={styles.secondary}>
+        <Button appName="web" className={styles.secondary}>
           Open alert
         </Button>
       </main>
