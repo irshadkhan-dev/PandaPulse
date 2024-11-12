@@ -1,99 +1,63 @@
-import Image from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
-import db from "@repo/db";
+import { Button } from "@/components/ui/button";
+import DiscordTab from "components/DiscordTab";
+import MaxWidthWrapper from "components/MaxWidthWrapper";
+import { Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="bg-brand-25 w-full">
+      <MaxWidthWrapper className="">
+        <div className="flex flex-col gap-12 py-12 md:py-20">
+          <div className="flex flex-col gap-8 items-center">
+            <div className="text-3xl sm:text-5xl">
+              <h1 className="font-semibold tracking-tight text-center">
+                Real-Time SaaS Insights,
+              </h1>
+              <h1 className="font-semibold text-brand-600">
+                Delivered to Your Discord
+              </h1>
+            </div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+            <div className="max-w-lg">
+              <p className="text-sm tracking-tighter text-center text-gray-400 font-medium">
+                PandaPulse is the easiest way to monitor your SaaS. Get instant
+                notifications for{" "}
+                <span className="text-gray-500">
+                  sales, new users, or any other event
+                </span>{" "}
+                sent directly to your Discord
+              </p>
+            </div>
+
+            <div className="flex flex-col space-y-2">
+              <div className="flex gap-2 text-gray-400 text-sm items-center">
+                <Check className="text-brand-600 h-5 w-5" />
+                Real time Discord alerts for critical events
+              </div>
+              <div className="flex gap-2 text-gray-400 text-sm items-center">
+                <Check className="text-brand-600 h-5 w-5" />
+                Buy once, use forever
+              </div>
+              <div className="flex gap-2 text-gray-400 text-sm items-center">
+                <Check className="text-brand-600 h-5 w-5" />
+                Track sales, new users or any other event
+              </div>
+            </div>
+
+            <div>
+              <Button
+                variant={"gooeyLeft"}
+                className="bg-brand-600 flex gap-1 items-center"
+              >
+                Start For Free Today
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file-text.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </MaxWidthWrapper>
+      <DiscordTab />
     </div>
   );
 }
