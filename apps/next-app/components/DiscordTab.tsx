@@ -15,22 +15,25 @@ import PandaIcon from "./PandaIcon";
 import DisMsg from "./DisMsg";
 import { DisMsgContent } from "lib/resource";
 import DisSideBar from "./DisSideBar";
+import DirectMsgTab from "./DirectMsgTab";
 
 const DiscordTab = () => {
   return (
-    <div className=" bg-brand-25 w-full pt-6 pb-10">
+    <div className=" bg-brand-25 w-full">
       <MaxWidthWrapper className="px-5">
         <div className="">
           <div className="relative">
             <div className="border border-gray-400 rounded-md bg-white relative z-20">
-              <div className="grid md:grid-cols-12 grid-cols-6">
-                <div className="col-span-1 bg-[#1e1f22] text-white flex flex-col gap-4 items-center py-3 rounded-tl-sm rounded-bl-sm">
+              <div className="grid md:grid-cols-12 grid-cols-6 h-[100vh]">
+                <div className="col-span-1  bg-[#1e1f22] text-white flex flex-col gap-4 items-center py-3 rounded-tl-sm rounded-bl-sm">
                   <DisSideBar />
                 </div>
 
-                <div className="col-span-3 max-md:hidden">Direct Mesaage</div>
+                <div className="col-span-3 max-md:hidden">
+                  <DirectMsgTab />
+                </div>
 
-                <div className="md:col-span-8 col-span-5 bg-[#303338] text-white ">
+                <div className="md:col-span-8 col-span-5 bg-[#303338] text-white">
                   <div className="flex border-b border-black py-3 items-center justify-between px-3">
                     <div className="flex gap-2 items-center text-base">
                       <PandaIcon />

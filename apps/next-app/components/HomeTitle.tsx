@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, ArrowRightIcon, Check } from "lucide-react";
 import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 
@@ -43,15 +43,17 @@ const HomeTitle = () => {
                 Track sales, new users or any other event
               </div>
             </div>
-
-            <div>
-              <Button
-                variant={"gooeyLeft"}
-                className="bg-brand-600 flex gap-1 items-center"
-              >
-                Start For Free Today
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+            <div className="flex  justify-center w-full">
+              <div className="hover:border-[2px] rounded-md hover:border-brand-700 hover:p-[2px] max-h-10">
+                <Button
+                  className="bg-brand-700 flex gap-2 items-center  "
+                  size={"lg"}
+                  variant={"gooeyLeft"}
+                >
+                  Start For Free Today
+                  <ArrowRightIcon />
+                </Button>
+              </div>
             </div>
           </div>
         </div>
