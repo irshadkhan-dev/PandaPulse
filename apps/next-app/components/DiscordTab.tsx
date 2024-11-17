@@ -16,15 +16,16 @@ import DisMsg from "./DisMsg";
 import { DisMsgContent } from "lib/resource";
 import DisSideBar from "./DisSideBar";
 import DirectMsgTab from "./DirectMsgTab";
+import { AnimatedList } from "./animatedList";
 
 const DiscordTab = () => {
   return (
     <div className=" bg-brand-25 w-full">
       <MaxWidthWrapper className="px-5">
-        <div className="">
-          <div className="relative">
+        <div>
+          <div className="relative ">
             <div className="border border-gray-400 rounded-md bg-white relative z-20">
-              <div className="grid md:grid-cols-12 grid-cols-6 h-[100vh]">
+              <div className="grid md:grid-cols-12 grid-cols-6 min-h-[900px]">
                 <div className="col-span-1  bg-[#1e1f22] text-white flex flex-col gap-4 items-center py-3 rounded-tl-sm rounded-bl-sm">
                   <DisSideBar />
                 </div>
@@ -51,7 +52,47 @@ const DiscordTab = () => {
                     </div>
                   </div>
 
-                  <DisMsg content={DisMsgContent} />
+                  <AnimatedList className="">
+                    <DisMsg
+                      pandaAvatarSrc="/icons/panda.png"
+                      userName="PandaPulse"
+                      content={{
+                        Name: "Irshad Khan",
+                        Email: "irshadkhan98031@gmail.com",
+                      }}
+                      msgTitle="New user signed up"
+                      emoji="🙋‍♂️"
+                      timeDate="Today at 2:35PM"
+                      badgeText="SignUp"
+                    />
+                    <DisMsg
+                      pandaAvatarSrc="/icons/panda.png"
+                      userName="PandaPulse"
+                      content={{
+                        Amount: "$50",
+                        Email: "irshadkhan98031@gmail.com",
+                        Plan: "PRO",
+                      }}
+                      msgTitle="Payment Received"
+                      emoji="💰"
+                      timeDate="Today at 4:35PM"
+                      badgeText="Revenue"
+                      badgeColor="#faa61a"
+                    />
+                    <DisMsg
+                      pandaAvatarSrc="/icons/panda.png"
+                      userName="PandaPulse"
+                      content={{
+                        RecurringRevenue: "$5.00 USD",
+                        Growth: "+6.5%",
+                      }}
+                      msgTitle="Revenue Milestone Achieved"
+                      emoji="🚀"
+                      timeDate="Today at 6:35PM"
+                      badgeText="Milestone"
+                      badgeColor=""
+                    />
+                  </AnimatedList>
                 </div>
               </div>
             </div>
