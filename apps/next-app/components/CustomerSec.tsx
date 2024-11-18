@@ -29,7 +29,7 @@ const CustomerSec = () => {
 
                   <div className="max-w-sm">
                     <span className="text-sm tracking-tight">
-                      PingPanda has been a game-changer for me. I've been using
+                      PandaPulse has been a game-changer for me. I've been using
                       it for two months now and seeing sales pop up in real-time
                       is super satisfying
                     </span>
@@ -63,7 +63,7 @@ const CustomerSec = () => {
 
                   <div className="max-w-sm">
                     <span className="text-sm tracking-tight">
-                      PingPanda's been paying off for our SaaS. Nice have simple
+                      PandaPulse been paying off for our SaaS. Nice have simple
                       way to see how we're doing day-to-day business. Definitely
                       makes our lives easier.
                     </span>

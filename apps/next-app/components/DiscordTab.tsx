@@ -1,6 +1,6 @@
 import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
-import DisNameIcon from "./DisNameIcon";
+
 import {
   CirclePlus,
   PhoneCall,

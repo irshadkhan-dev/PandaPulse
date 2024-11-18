@@ -9,7 +9,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "skipDefaultLibCheck": true,
+    "preserveSymlinks": true
   },
   "include": [
     "next-env.d.ts",

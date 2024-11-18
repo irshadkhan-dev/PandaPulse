@@ -10,9 +10,11 @@ const Navbar = () => {
     <div className="border-b border-gray-200 w-full flex h-14 backdrop-blur-lg bg-white/75 sticky top-0 transition-all z-[100]">
       <MaxWidthWrapper className="flex items-center">
         <div className="flex justify-between items-center w-full">
-          <div className="flex text-base font-medium">
-            <span className="text-brand-600">Panda</span>Pulse
-          </div>
+          <Link href={"/"}>
+            <div className="flex text-base font-medium">
+              <span className="text-brand-600">Panda</span>Pulse
+            </div>
+          </Link>
 
           <div className="flex justify-between gap-5 items-center px-5 ">
             <div>
@@ -25,9 +27,11 @@ const Navbar = () => {
             </div>
             <div className="w-[1px] h-7 bg-gray-400" />
             <div>
-              <Button variant={"gooeyLeft"} className="h-8  bg-brand-600">
-                {user ? "Dashboard" : "Sing up"}
-              </Button>
+              <Link href={user ? "/dashboard" : "/auth/signup"}>
+                <Button variant={"gooeyLeft"} className="h-8  bg-brand-600">
+                  {user ? "Dashboard" : "Sing up"}
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const BentoGrid = () => {
   return (
-    <div className="w-full bg-brand-25 h-full pt-20 max-md:pt-52">
+    <div className="w-full bg-brand-25 h-full pt-20">
       <MaxWidthWrapper>
         <div className="flex flex-col gap-10">
           <div className="flex flex-col items-center">
@@ -14,7 +14,7 @@ const BentoGrid = () => {
             </h1>
           </div>
 
-          <div className="grid grid-cols-6 gap-5 w-full  max-md:flex flex-col md:px-7 px-5 relative">
+          <div className="grid grid-cols-6 gap-5 w-full  max-md:flex flex-col  relative">
             <div className="md:col-span-2  bg-white shadow-xl rounded-l-[30px] rounded-r-md">
               <div className="pt-7 px-7 flex flex-col md:justify-between  h-full w-full gap-5 items-center">
                 <div className="flex flex-col gap-4">
@@ -33,6 +33,7 @@ const BentoGrid = () => {
                     width={300}
                     height={300}
                     alt="phone image"
+                    className="border-x-[10px] border-t-[10px] rounded-tl-3xl rounded-tr-3xl border-gray-500"
                   />
                 </div>
               </div>
@@ -97,6 +98,7 @@ const BentoGrid = () => {
                     width={300}
                     height={300}
                     alt="phone image"
+                    className="rounded-t-xl"
                   />
                 </div>
               </div>
