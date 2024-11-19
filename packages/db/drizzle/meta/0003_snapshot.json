@@ -1,6 +1,6 @@
 {
-  "id": "fe9ceb64-da60-42f2-b7b5-bcfb0b148618",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "33522104-4ae3-4042-8bd3-9184f626060e",
+  "prevId": "25a73774-8d63-45be-bc95-3e9792ab1569",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -97,6 +97,51 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.session": {
+      "name": "session",
+      "schema": "",
+      "columns": {
+        "sessionToken": {
+          "name": "sessionToken",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "expires": {
+          "name": "expires",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "session_userId_user_id_fk": {
+          "name": "session_userId_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.user": {
       "name": "user",
       "schema": "",
@@ -106,7 +151,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'5b61a515-cda4-4e6d-bdad-ea137b00728f'"
+          "default": "'83e26052-2503-4c88-a90c-317490ac0467'"
         },
         "email": {
           "name": "email",
@@ -114,8 +159,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_name": {
-          "name": "user_name",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -127,8 +172,14 @@
           "notNull": true,
           "default": "'free'"
         },
-        "avatar": {
-          "name": "avatar",
+        "emailVerified": {
+          "name": "emailVerified",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
           "type": "text",
           "primaryKey": false,
           "notNull": false

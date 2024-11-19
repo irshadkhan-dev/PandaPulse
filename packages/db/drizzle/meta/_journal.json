@@ -5,8 +5,29 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1731241091004,
-      "tag": "0000_exotic_frightful_four",
+      "when": 1732005402120,
+      "tag": "0000_nostalgic_iron_monger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1732005885769,
+      "tag": "0001_panoramic_hawkeye",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732006099072,
+      "tag": "0002_faulty_randall_flagg",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732007715352,
+      "tag": "0003_nasty_ironclad",
       "breakpoints": true
     }
   ]

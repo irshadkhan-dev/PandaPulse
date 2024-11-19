@@ -1,6 +1,6 @@
 {
-  "id": "fe9ceb64-da60-42f2-b7b5-bcfb0b148618",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "25a73774-8d63-45be-bc95-3e9792ab1569",
+  "prevId": "d411eccb-028d-49e7-904c-d4502cb07aa3",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -106,7 +106,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'5b61a515-cda4-4e6d-bdad-ea137b00728f'"
+          "default": "'ea9a7785-4e94-46b7-96b4-21e351d2d392'"
         },
         "email": {
           "name": "email",
@@ -114,8 +114,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "user_name": {
-          "name": "user_name",
+        "name": {
+          "name": "name",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -127,8 +127,14 @@
           "notNull": true,
           "default": "'free'"
         },
-        "avatar": {
-          "name": "avatar",
+        "emailVerified": {
+          "name": "emailVerified",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "image": {
+          "name": "image",
           "type": "text",
           "primaryKey": false,
           "notNull": false
