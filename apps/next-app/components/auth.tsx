@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Image from "next/image";
-
+import { signIn } from "next-auth/react";
 const Auth = () => {
   return (
     <div className="w-full h-[100vh] bg-brand-25 ">
@@ -34,6 +34,7 @@ const Auth = () => {
                   className="bg-brand-700 flex gap-2 items-center w-full"
                   size={"lg"}
                   variant={"gooeyLeft"}
+                  onClick={() => signIn("google")}
                 >
                   <FcGoogle className="h-7 w-7" />
                 </Button>
@@ -46,6 +47,7 @@ const Auth = () => {
                   className="bg-brand-700 flex gap-2 items-center w-full"
                   size={"lg"}
                   variant={"gooeyLeft"}
+                  onClick={() => signIn("github")}
                 >
                   <FaGithub className="h-7 w-7" />
                 </Button>
