@@ -1,11 +1,17 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
-import { ArrowRight } from "lucide-react";
-import MaxWidthWrapper from "./MaxWidthWrapper";
 
-const Navbar = () => {
-  const user = false;
+import MaxWidthWrapper from "./MaxWidthWrapper";
+import { auth } from "../auth";
+import DiscordHomeButton from "./discordHomeButton";
+
+import SignOutBtn from "./signOutBtn";
+
+const Navbar = async () => {
+  // const session = await auth();
+  // const user: User = session?.user;
+  const user = true;
+
   return (
     <div className="border-b border-gray-200 w-full flex h-14 backdrop-blur-lg bg-white/75 sticky top-0 transition-all z-[100]">
       <MaxWidthWrapper className="flex items-center">
@@ -16,22 +22,23 @@ const Navbar = () => {
             </div>
           </Link>
 
-          <div className="flex justify-between gap-5 items-center px-5 ">
+          <div className="flex justify-between gap-2 items-center px-5 ">
             <div>
-              <Link
-                href={`${user ? "/sign-out" : "/pricing"}`}
-                className="text-gray-600 text-sm"
-              >
-                {user ? "Sign out" : "Pricing"}
-              </Link>
+              {user ? (
+                <>
+                  <SignOutBtn />
+                </>
+              ) : (
+                <>
+                  <Link href={"/pricing"} className="text-gray-500 text-sm">
+                    Pricing
+                  </Link>
+                </>
+              )}
             </div>
             <div className="w-[1px] h-7 bg-gray-400" />
             <div>
-              <Link href={user ? "/dashboard" : "/auth/signup"}>
-                <Button variant={"gooeyLeft"} className="h-8  bg-brand-600">
-                  {user ? "Dashboard" : "Sing up"}
-                </Button>
-              </Link>
+              <DiscordHomeButton btnType="nav" user={user}></DiscordHomeButton>
             </div>
           </div>
         </div>

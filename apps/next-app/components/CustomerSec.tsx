@@ -2,8 +2,9 @@ import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { Star, ArrowRightIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import DiscordHomeButton from "./discordHomeButton";
 
-const CustomerSec = () => {
+const CustomerSec = ({ user }: { user: any }) => {
   return (
     <div className="bg-white w-full pt-20 pb-10">
       <MaxWidthWrapper>
@@ -89,14 +90,9 @@ const CustomerSec = () => {
 
           <div className="flex justify-center">
             <div className="hover:border-[2px] rounded-md hover:border-brand-700 hover:p-[2px] max-h-10">
-              <Button
-                className="bg-brand-700 flex gap-2 items-center  "
-                size={"lg"}
-                variant={"gooeyLeft"}
-              >
-                Start For Free Today
-                <ArrowRightIcon />
-              </Button>
+              <DiscordHomeButton className="flex gap-2" user={user}>
+                <ArrowRightIcon className="h-5 w-5" />
+              </DiscordHomeButton>
             </div>
           </div>
         </div>

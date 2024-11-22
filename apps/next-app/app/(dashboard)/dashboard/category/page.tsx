@@ -1,17 +1,16 @@
+import DashboardBody from "components/dash-body";
+import DashboardHeader from "components/dash-header";
 import React from "react";
-import AppSideBar from "./app-sidebar";
-import DashboardHeader from "./dash-header";
-import DashboardBody from "./dash-body";
 
-const Dashboard = () => {
+const Page = () => {
   return (
     <div className="w-full bg-[#fafafa] h-screen pt-10">
       <div className="flex flex-col gap-10 w-full px-5">
         <DashboardHeader />
-        <DashboardBody />
+        <div></div>
       </div>
     </div>
   );
 };
 
-export default Dashboard;
+export default Page;

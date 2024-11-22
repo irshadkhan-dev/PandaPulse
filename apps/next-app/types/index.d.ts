@@ -12,3 +12,19 @@ declare type DisMsgProps = {
 declare interface DisMsgInterface {
   content: DisMsgProps[];
 }
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: null;
+  image: string;
+}
+
+interface CategoryTableProps {
+  categoryName: string;
+  amount: string | null;
+  events: string | null;
+  clientUserEmail: string | null;
+  lastPing: string | null;
+}

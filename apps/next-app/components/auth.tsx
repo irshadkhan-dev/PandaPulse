@@ -34,7 +34,7 @@ const Auth = () => {
                   className="bg-brand-700 flex gap-2 items-center w-full"
                   size={"lg"}
                   variant={"gooeyLeft"}
-                  onClick={() => signIn("google")}
+                  onClick={() => signIn("google", { redirectTo: "/dashboard" })}
                 >
                   <FcGoogle className="h-7 w-7" />
                 </Button>
@@ -47,7 +47,7 @@ const Auth = () => {
                   className="bg-brand-700 flex gap-2 items-center w-full"
                   size={"lg"}
                   variant={"gooeyLeft"}
-                  onClick={() => signIn("github")}
+                  onClick={() => signIn("github", { redirectTo: "/dashboard" })}
                 >
                   <FaGithub className="h-7 w-7" />
                 </Button>
