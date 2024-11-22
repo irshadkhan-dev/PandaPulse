@@ -1,7 +1,28 @@
-import { pgTable, serial, text, doublePrecision } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  serial,
+  text,
+  doublePrecision,
+  numeric,
+  primaryKey,
+} from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 import type { AdapterAccountType } from "next-auth/adapters";
+
+export const generateUniqueString = (length: number = 12): string => {
+  let uniqueString = "";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+
+    uniqueString += characters[randomIndex];
+  }
+
+  return uniqueString;
+};
 
 const users = pgTable("user", {
   id: t.text("id").primaryKey().default(uuid()),
@@ -30,6 +51,16 @@ const accounts = pgTable("account", {
   session_state: text("session_state"),
 });
 
+const categories = pgTable("category", {
+  categoryId: t.text("categoryId").$default(() => generateUniqueString(12)),
+  userId: text("userId").notNull(),
+  categoryName: t.text("categoryName").notNull(),
+  lastPing: t.text("lastPing").default("0"),
+  amount: t.text("amount").default("0"),
+  clientUserEmail: t.text("clientUserEmail"),
+  events: t.text("event").default("0"),
+});
+
 const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
@@ -38,4 +69,4 @@ const sessions = pgTable("session", {
   expires: t.timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export { users, accounts, sessions };
+export { users, accounts, sessions, categories };
