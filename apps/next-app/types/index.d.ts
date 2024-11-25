@@ -22,9 +22,12 @@ interface User {
 }
 
 interface CategoryTableProps {
-  categoryName: string;
+  userId: string;
+  categoryId: string | null;
+  categoryName: string | null;
   amount: string | null;
   events: string | null;
   clientUserEmail: string | null;
   lastPing: string | null;
 }
+[];

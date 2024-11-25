@@ -10,11 +10,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   // if (!session) redirect("/");
   return (
     <SessionProvider>
-      <QueryClientProvider client={client}>
-        <SidebarProvider className="w-full">
-          <main className="w-full overflow-hidden flex gap-10">{children}</main>
-        </SidebarProvider>
-      </QueryClientProvider>
+      <QueryClientProvider client={client}>{children}</QueryClientProvider>
     </SessionProvider>
   );
 };

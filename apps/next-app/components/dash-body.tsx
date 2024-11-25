@@ -1,58 +1,39 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { Rocket } from "lucide-react";
-import Link from "next/link";
-import { CreateQuickStartCategory } from "lib/actions/user.actions";
-import { useMutation } from "@tanstack/react-query";
+import React from "react";
+import { Rocket, Loader2 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { GetAllCategory } from "lib/actions/user.actions";
+
+import DashEvents from "./dash-events";
+import DashHome from "./dash-home";
 
 const DashboardBody = () => {
-  const [isLoading, setLoading] = useState<boolean>(false);
-  const [categoryData, setCategoryData] = useState<CategoryTableProps[]>();
+  const {
+    isPending,
+    isError,
+    data: categoryData,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: async () => await GetAllCategory(),
+    select: (data: any) => data?.categoryTable || [],
+  });
 
-  const handleQucickStart = async () => {};
+  if (isPending)
+    return (
+      <div className="w-full bg-white/5 backdrop-blur-lg transition-all z-[100] h-[70vh] flex items-center justify-center border border-gray-200 rounded-lg">
+        <Loader2 className="animate-spin w-10 h-10 text-brand-700" />
+      </div>
+    );
+  if (isError) return <div>Error fetching data</div>;
 
   return (
-    <div className="w-full flex flex-col gap-4 items-center bg-white md:py-20 py-5 rounded border border-gray-200">
-      {categoryData ? (
+    <div className="w-full h-[70vh] py-10">
+      {categoryData && categoryData.length > 0 ? (
         <>
-          <div>letss seee what happes</div>
+          <DashEvents data={categoryData} />
         </>
       ) : (
-        <>
-          <div className="">
-            <Image
-              src={"/icons/pandaWave.png"}
-              alt="panda waving"
-              width={300}
-              height={300}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 text-base text-center">
-            <span className="font-medium">No Event Categories Yet</span>
-            <span className="text-sm text-gray-500">
-              Start tracking events by creating your first category.
-            </span>
-          </div>
-
-          <div className="flex gap-5 pt-4">
-            <Button
-              className="flex gap-2 items-center border border-gray-300 p-1 rounded"
-              onClick={() => handleQucickStart()}
-            >
-              <Rocket />
-              {isLoading ? "Creating..." : "Quick Start"}
-            </Button>
-            <Button
-              className="bg-brand-700  border border-brand-600 flex gap-2 items-center"
-              variant={"gooeyLeft"}
-            >
-              Add Category
-            </Button>
-          </div>
-        </>
+        <DashHome />
       )}
     </div>
   );

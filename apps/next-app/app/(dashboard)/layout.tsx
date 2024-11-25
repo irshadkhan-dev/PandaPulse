@@ -1,7 +1,8 @@
 import React from "react";
 
 import AppSideBar from "components/app-sidebar";
-import Providers from "components/providers";
+
+import { SidebarProvider } from "@/components/ui/sidebar";
 export default async function Rootpage({
   children,
 }: Readonly<{
@@ -9,12 +10,14 @@ export default async function Rootpage({
 }>) {
   return (
     <>
-      <Providers>
-        <div className="max-md:hidden">
-          <AppSideBar className="bg-white w-[18rem]" />
-        </div>
-        {children}
-      </Providers>
+      <SidebarProvider>
+        <main className="w-full overflow-hidden flex gap-10">
+          <div className="max-md:hidden">
+            <AppSideBar className="bg-white w-[18rem]" />
+          </div>
+          {children}
+        </main>
+      </SidebarProvider>
     </>
   );
 }
