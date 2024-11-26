@@ -6,21 +6,22 @@ import { eq } from "drizzle-orm";
 
 const session = await auth();
 const userId = session?.user.id;
-export const CreateQuickStartCategory = async () => {
+export const CreateCategory = async (category: CreateCategoryType[]) => {
   try {
-    const categoryTable = await db.insert(categories).values([
-      {
-        categoryName: "sale",
-        userId,
-      },
-      {
-        categoryName: "signup",
-        userId,
-      },
-    ]);
+    if (!userId) {
+      throw new Error("User ID is required");
+    }
 
-    if (!categoryTable) {
-      return { error: "Error creating events!" };
+    for (const c of category) {
+      const categoryTable = await db.insert(categories).values([
+        {
+          categoryName: c.categoryName,
+          userId,
+        },
+      ]);
+      if (!categoryTable) {
+        throw new Error("Error creating events!");
+      }
     }
 
     return { success: "Created events" };
@@ -49,10 +50,6 @@ export const DeleteCategory = async (categoryId: string) => {
     const deleteCategory = await db
       .delete(categories)
       .where(eq(categories.categoryId, categoryId));
-
-    if (deleteCategory) {
-      return { success: "Event Category Deleted Successfully" };
-    }
   } catch (error) {
     console.log(error);
   }

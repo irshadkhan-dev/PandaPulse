@@ -1,22 +1,37 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { CreateQuickStartCategory } from "lib/actions/user.actions";
+import { CreateCategory } from "lib/actions/user.actions";
 import { Rocket } from "lucide-react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const DashHome = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const onClickQuickStart = async () => {
-    try {
-      setIsLoading(true);
-      const createCategory = await CreateQuickStartCategory();
-    } catch (error) {
+  const queryClient = useQueryClient();
+
+  const { mutate: quickStart, isPending: isLoading } = useMutation({
+    mutationFn: async (category: CreateCategoryType[]) => {
+      return await CreateCategory(category);
+    },
+
+    onSuccess: (newCategory: any) => {
+      // Invalidate and refetch the categories query
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+    onError: (error: any) => {
       console.error("Error creating category:", error);
-    } finally {
-      setIsLoading(false);
-    }
+      // Here you could also add toast notification for error
+    },
+  });
+
+  const onClickQuickStart = (category: CreateCategoryType[]) => {
+    quickStart(
+      category.map((cat) => ({
+        ...cat,
+      }))
+    );
   };
+
   return (
     <div className="bg-white rounded border border-gray-200 flex flex-col gap-4 items-center">
       <div>
@@ -36,7 +51,12 @@ const DashHome = () => {
       <div className="flex gap-5 pt-4">
         <Button
           className="flex gap-2 items-center border border-gray-300 p-1 rounded"
-          onClick={onClickQuickStart}
+          onClick={() =>
+            onClickQuickStart([
+              { categoryName: "sale" },
+              { categoryName: "signup" },
+            ])
+          }
         >
           <Rocket />
           {isLoading ? "Creating.." : "QuickStart"}

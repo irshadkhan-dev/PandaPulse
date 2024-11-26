@@ -4,9 +4,52 @@ import { cn, GetDate } from "@/lib/utils";
 import { DeleteCategory } from "lib/actions/user.actions";
 import { ArrowRight, BarChart2, Clock, Trash2 } from "lucide-react";
 import React from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+type ContextType = {
+  previousData: unknown;
+};
 
 const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
+  const queryClient = useQueryClient();
   const { fullDate } = GetDate();
+  const { mutate, isError, err } = useMutation({
+    mutationFn: async (categoryId: string) => await DeleteCategory(categoryId),
+    onMutate: async (categoryId: string) => {
+      await queryClient.cancelQueries({ queryKey: ["categories"] });
+
+      //this gets the query data which is cached
+      const previousData = await queryClient.getQueryData({
+        queryKey: ["categories"],
+      });
+
+      // this function will filter out the categories which should not be deleted and set it to queries removing the category which should be deleted
+      queryClient.setQueryData(
+        ["categories"],
+        (old: { categoryTable: CategoryTableProps[] } | undefined) => {
+          if (!old) return old;
+          return {
+            ...old,
+            categoryTable: old?.categoryTable.filter(
+              (category) => category.categoryId !== categoryId
+            ),
+          };
+        }
+      );
+
+      return { previousData };
+    },
+
+    onError: (err: any, categoryId: string, context: ContextType) => {
+      queryClient.setQueryData(["categories"], context?.previousData);
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["categories"] });
+    },
+  });
+
+  if (isError) return <div>{err}</div>;
   return (
     <div className="bg-[#fafafa] flex w-full">
       <div className="flex gap-14 w-full">
@@ -58,7 +101,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
                   className="bg-white"
                   variant={"gooeyLeft"}
                   size={"sm"}
-                  onClick={async () => await DeleteCategory(c.categoryId!)}
+                  onClick={() => mutate(c.categoryId!)}
                 >
                   <Trash2 className="h-5 w-5 text-gray-500" />
                 </Button>

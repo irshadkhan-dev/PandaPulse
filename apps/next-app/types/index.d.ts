@@ -30,4 +30,7 @@ interface CategoryTableProps {
   clientUserEmail: string | null;
   lastPing: string | null;
 }
-[];
+
+type CreateCategoryType = {
+  categoryName: string;
+};
