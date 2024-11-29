@@ -1,6 +1,6 @@
 {
-  "id": "40ec28ca-6456-49db-9722-22b0b9391cdc",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "7cb4c2ec-b8c7-423a-b628-cd859b052c13",
+  "prevId": "40ec28ca-6456-49db-9722-22b0b9391cdc",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -97,6 +97,78 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.category": {
+      "name": "category",
+      "schema": "",
+      "columns": {
+        "categoryId": {
+          "name": "categoryId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "categoryName": {
+          "name": "categoryName",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lastPing": {
+          "name": "lastPing",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'NEVER'"
+        },
+        "amount": {
+          "name": "amount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "clientUserEmail": {
+          "name": "clientUserEmail",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "events": {
+          "name": "events",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.session": {
       "name": "session",
       "schema": "",
@@ -151,7 +223,7 @@
           "type": "text",
           "primaryKey": true,
           "notNull": true,
-          "default": "'97dfe29e-1252-45af-9a5b-eb72963428ff'"
+          "default": "'ac053ccd-0cc8-4409-ab70-8d7cf4c0f5fe'"
         },
         "email": {
           "name": "email",

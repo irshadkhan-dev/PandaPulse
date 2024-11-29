@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import React from "react";
 import { ArrowLeft, Plus } from "lucide-react";
+import AddCatModal from "./addCatModal";
 
 const DashboardHeader = () => {
   const path = usePathname();
@@ -17,10 +18,7 @@ const DashboardHeader = () => {
           <ArrowLeft className="h-4 w-4 flex-shrink-0" />
         </div>
         <span className="md:text-4xl text-2xl">{pathName}</span>
-        <Button className="flex gap-2 bg-brand-700" variant={"gooeyLeft"}>
-          <Plus className="h-4 w-4 flex-shrink-0" />
-          Add Category
-        </Button>
+        <AddCatModal />
       </div>
       <div className="w-full h-px bg-gray-200" />
     </>

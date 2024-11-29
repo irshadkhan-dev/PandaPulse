@@ -5,6 +5,7 @@ import { DeleteCategory } from "lib/actions/user.actions";
 import { ArrowRight, BarChart2, Clock, Trash2 } from "lucide-react";
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
 
 type ContextType = {
   previousData: unknown;
@@ -51,11 +52,11 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
 
   if (isError) return <div>{err}</div>;
   return (
-    <div className="bg-[#fafafa] flex w-full">
-      <div className="flex gap-14 w-full">
+    <div className="bg-[#fafafa] w-full">
+      <div className="flex max-md:flex-col gap-8 md:gap-14 flex-wrap items-center">
         {data.map((c: CategoryTableProps) => (
           <div
-            className="bg-white border border-gray-200 rounded-lg p-8 w-full"
+            className="bg-white border border-gray-200 rounded-lg p-8 md:px-14 w-80 md:w-96"
             key={c.categoryId}
           >
             <div className="flex flex-col gap-6">
@@ -64,12 +65,21 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
                   className={cn(" w-10 h-10 rounded-full", {
                     "bg-amber-600": c.categoryName === "sale",
                     "bg-violet-600": c.categoryName === "signup",
+                    "bg-cyan-600": c.categoryName === "revenue",
                   })}
                 ></div>
 
                 <div className="flex flex-col text-sm">
                   <div className="flex">
-                    <div>{c.categoryName === "sale" ? "💰" : "🙋‍♂️"}</div>
+                    <div>
+                      {c.categoryName === "sale"
+                        ? "💰"
+                        : c.categoryName === "signup"
+                          ? "🙋‍♂️"
+                          : c.categoryName === "revenue"
+                            ? "🚀"
+                            : ""}
+                    </div>
                     <div>{c.categoryName}</div>
                   </div>
 
@@ -89,13 +99,13 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
               </div>
 
               <div className="flex justify-between items-center">
-                <Button
-                  className="bg-white flex items-center gap-1 text-sm text-black border border-gray-200 rounded-lg"
-                  variant={"gooeyLeft"}
+                <Link
+                  href={`/dashboard/category/${c.categoryName}`}
+                  className="bg-white flex items-center gap-1 text-sm text-black border border-gray-200 rounded-lg p-2"
                 >
                   View all
                   <ArrowRight className="h-5 w-5" />
-                </Button>
+                </Link>
 
                 <Button
                   className="bg-white"

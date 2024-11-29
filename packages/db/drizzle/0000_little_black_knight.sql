@@ -12,16 +12,6 @@ CREATE TABLE IF NOT EXISTS "account" (
 	"session_state" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "category" (
-	"categoryId" text,
-	"userId" text NOT NULL,
-	"categoryName" text NOT NULL,
-	"lastPing" text DEFAULT '0',
-	"amount" text DEFAULT '0',
-	"clientUserEmail" text,
-	"event" text DEFAULT '0'
-);
---> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "session" (
 	"sessionToken" text PRIMARY KEY NOT NULL,
 	"userId" text NOT NULL,
@@ -29,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "session" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" text PRIMARY KEY DEFAULT '37fe66e8-f7e8-469a-aa0b-675c4095ea58' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT '97dfe29e-1252-45af-9a5b-eb72963428ff' NOT NULL,
 	"email" text NOT NULL,
 	"name" text NOT NULL,
 	"plan" text DEFAULT 'free' NOT NULL,

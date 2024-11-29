@@ -5,6 +5,7 @@ import { Rocket } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import AddCatModal from "./addCatModal";
 
 const DashHome = () => {
   const queryClient = useQueryClient();
@@ -61,12 +62,7 @@ const DashHome = () => {
           <Rocket />
           {isLoading ? "Creating.." : "QuickStart"}
         </Button>
-        <Button
-          className="bg-brand-700  border border-brand-600 flex gap-2 items-center"
-          variant={"gooeyLeft"}
-        >
-          Add Category
-        </Button>
+        <AddCatModal />
       </div>
     </div>
   );

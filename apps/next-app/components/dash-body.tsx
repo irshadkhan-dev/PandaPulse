@@ -28,9 +28,9 @@ const DashboardBody = () => {
       </div>
     );
   if (isError) return <div>Error fetching data</div>;
-
+  console.log(categoryData);
   return (
-    <div className="w-full h-[70vh] py-10">
+    <div className="w-full h-[70vh] md:py-10 overflow-x-scroll">
       {categoryData && categoryData.length > 0 ? (
         <DashEvents data={categoryData} />
       ) : (

@@ -12,7 +12,7 @@
     "@auth/drizzle-adapter": "^1.7.4",
     "@hookform/resolvers": "^3.9.1",
     "@neondatabase/serverless": "^0.10.3",
-    "@radix-ui/react-dialog": "^1.1.2",
+    "@radix-ui/react-dialog": "latest",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-radio-group": "^1.2.1",
     "@radix-ui/react-separator": "^1.1.0",
@@ -37,7 +37,8 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "web": "link:",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "@radix-ui/react-primitive": "latest"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",

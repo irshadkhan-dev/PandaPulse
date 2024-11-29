@@ -9,6 +9,7 @@ import {
 import * as t from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 import type { AdapterAccountType } from "next-auth/adapters";
+import { timestamp } from "drizzle-orm/mysql-core";
 
 export const generateUniqueString = (length: number = 12): string => {
   let uniqueString = "";
@@ -26,10 +27,9 @@ export const generateUniqueString = (length: number = 12): string => {
 
 const users = pgTable("user", {
   id: t.text("id").primaryKey().default(uuid()),
-
   email: t.text("email").unique().notNull(),
   name: t.text("name").notNull(),
-  plan: t.text("plan").default("free").notNull(),
+  plan: t.text("plan").notNull().default("free"),
   emailVerified: t.timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   createdAt: t.timestamp().defaultNow().notNull(),
@@ -55,10 +55,12 @@ const categories = pgTable("category", {
   categoryId: t.text("categoryId").$default(() => generateUniqueString(12)),
   userId: text("userId").notNull(),
   categoryName: t.text("categoryName").notNull(),
-  lastPing: t.text("lastPing").default("0"),
-  amount: t.text("amount").default("0"),
+  lastPing: t.text("lastPing").default("NEVER"),
+  amount: t.integer("amount").default(0),
   clientUserEmail: t.text("clientUserEmail"),
-  events: t.text("event").default("0"),
+  events: t.integer("events").default(0),
+  createdAt: t.timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: t.timestamp("updatedAt").notNull().defaultNow(),
 });
 
 const sessions = pgTable("session", {

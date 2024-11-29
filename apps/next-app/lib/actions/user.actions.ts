@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 
 const session = await auth();
 const userId = session?.user.id;
+
 export const CreateCategory = async (category: CreateCategoryType[]) => {
   try {
     if (!userId) {
@@ -50,6 +51,34 @@ export const DeleteCategory = async (categoryId: string) => {
     const deleteCategory = await db
       .delete(categories)
       .where(eq(categories.categoryId, categoryId));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCategoryById = async (categoryId: string) => {
+  try {
+    const data = await db.query.categories.findFirst({
+      where: (categories, { eq }) => eq(categories.categoryId, categoryId),
+    });
+
+    if (!data) return { error: "Error loading events try again!" };
+
+    return { data };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getCategoryByName = async (categoryName: string) => {
+  try {
+    const data = await db.query.categories.findFirst({
+      where: (categories, { eq }) => eq(categories.categoryName, categoryName),
+    });
+
+    if (!data) return { error: "Error loading the events" };
+
+    return { data };
   } catch (error) {
     console.log(error);
   }
