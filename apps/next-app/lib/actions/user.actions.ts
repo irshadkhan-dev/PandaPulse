@@ -1,8 +1,10 @@
 "use server";
 import db from "@repo/db";
-import { categories } from "@repo/db/schema";
+import { categories, apikey } from "@repo/db/schema";
 import { auth } from "../../auth";
 import { eq } from "drizzle-orm";
+import crypto from "crypto";
+import { hashApiKey } from "lib/utils";
 
 const session = await auth();
 const userId = session?.user.id;
@@ -79,6 +81,30 @@ export const getCategoryByName = async (categoryName: string) => {
     if (!data) return { error: "Error loading the events" };
 
     return { data };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const CreateApiKey = async () => {
+  try {
+    await db.delete(apikey);
+
+    const apiKey = crypto.randomBytes(32).toString("hex");
+
+    const hashedKey = hashApiKey(apiKey);
+
+    const storeHashKey = await db.insert(apikey).values([
+      {
+        hashedKey: hashedKey,
+        isActive: true,
+        userId: userId,
+      },
+    ]);
+
+    if (storeHashKey) {
+      return { apiKey };
+    }
   } catch (error) {
     console.log(error);
   }

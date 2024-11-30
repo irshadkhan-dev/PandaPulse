@@ -66,10 +66,10 @@ const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           <SidebarMenu>
             <SidebarMenuItem className="space-y-2">
               <SidebarMenuButton asChild>
-                <a className="flex gap-2">
+                <Link className="flex gap-2" href={"/apikey"}>
                   <Key />
                   <span>API key</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
 
               <SidebarMenuButton asChild>

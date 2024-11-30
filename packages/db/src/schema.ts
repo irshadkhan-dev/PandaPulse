@@ -63,6 +63,17 @@ const categories = pgTable("category", {
   updatedAt: t.timestamp("updatedAt").notNull().defaultNow(),
 });
 
+const apikey = pgTable("apikey", {
+  userId: t
+    .text("userId")
+    .references(() => users.id, { onDelete: "cascade" })
+    .notNull(),
+
+  hashedKey: t.text("hashedKey").notNull(),
+  createdAt: t.timestamp("createdAt").defaultNow(),
+  isActive: t.boolean("isActive").default(false),
+});
+
 const sessions = pgTable("session", {
   sessionToken: text("sessionToken").primaryKey(),
   userId: text("userId")
@@ -71,4 +82,4 @@ const sessions = pgTable("session", {
   expires: t.timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export { users, accounts, sessions, categories };
+export { users, accounts, sessions, categories, apikey };
