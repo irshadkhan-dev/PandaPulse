@@ -1,9 +1,10 @@
 import { Hono } from 'hono';
 import type { Env } from './types';
-import { and, eq } from 'drizzle-orm';
+import { and, eq, AnyColumn, sql as Sql } from 'drizzle-orm';
+import ValidateApiKey from './middleware';
 
 export function setupRoutes(app: Hono<{ Bindings: Env }>) {
-	app.get('/database', async (c) => {
+	app.get('/database', ValidateApiKey, async (c) => {
 		try {
 			const { neon } = await import('@neondatabase/serverless');
 			const { drizzle } = await import('drizzle-orm/neon-http');
@@ -16,39 +17,17 @@ export function setupRoutes(app: Hono<{ Bindings: Env }>) {
 				},
 			});
 
-			const headerKey = c.req.header();
-			const authorization = headerKey?.authorization;
-
-			if (!authorization) {
-				return c.json({ error: 'API key is required' }, 400);
-			}
-
-			const rawApi = authorization.split(' ')[1];
-
-			const encoder = new TextEncoder();
-			const data = encoder.encode(rawApi);
-			const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-
-			const hashArray = Array.from(new Uint8Array(hashBuffer));
-			const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-
-			const validateApiKey = await db.query.apikey.findFirst({
-				where: (apikey, { eq }) => eq(apikey.hashedKey, hashHex),
-			});
-
-			console.log(validateApiKey);
-
-			if (!validateApiKey) return c.json({ error: 'Error' });
+			const validateApiKey = c.get('validateApiKey');
 
 			const { category, fields } = await c.req.json();
-			console.log(category);
 
-			const { plan, ...other } = fields;
-
+			const { plan, amount, ...other } = fields;
+			console.log(amount);
 			const updateCategory = await db
 				.update(categories)
 				.set({
-					...other,
+					amount: Sql`${categories.amount} + ${amount}`,
+					events: Sql`${categories.events} + 1`,
 				})
 				.where(and(eq(categories.categoryName, category), eq(categories.userId, validateApiKey.userId)));
 
