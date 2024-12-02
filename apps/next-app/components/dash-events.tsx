@@ -32,7 +32,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
           return {
             ...old,
             categoryTable: old?.categoryTable.filter(
-              (category) => category.categoryId !== categoryId
+              (category) => category.id !== categoryId
             ),
           };
         }
@@ -57,30 +57,30 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
         {data.map((c: CategoryTableProps) => (
           <div
             className="bg-white border border-gray-200 rounded-lg p-8 md:px-14 w-80 md:w-96"
-            key={c.categoryId}
+            key={c.id}
           >
             <div className="flex flex-col gap-6">
               <div className="flex gap-2 items-center">
                 <div
                   className={cn(" w-10 h-10 rounded-full", {
-                    "bg-amber-600": c.categoryName === "sale",
-                    "bg-violet-600": c.categoryName === "signup",
-                    "bg-cyan-600": c.categoryName === "revenue",
+                    "bg-amber-600": c.name === "sale",
+                    "bg-violet-600": c.name === "signup",
+                    "bg-cyan-600": c.name === "revenue",
                   })}
                 ></div>
 
                 <div className="flex flex-col text-sm">
                   <div className="flex">
                     <div>
-                      {c.categoryName === "sale"
+                      {c.name === "sale"
                         ? "💰"
-                        : c.categoryName === "signup"
+                        : c.name === "signup"
                           ? "🙋‍♂️"
-                          : c.categoryName === "revenue"
+                          : c.name === "revenue"
                             ? "🚀"
                             : ""}
                     </div>
-                    <div>{c.categoryName}</div>
+                    <div>{c.name}</div>
                   </div>
 
                   <div className="text-gray-500">{fullDate}</div>
@@ -100,7 +100,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
 
               <div className="flex justify-between items-center">
                 <Link
-                  href={`/dashboard/category/${c.categoryName}`}
+                  href={`/dashboard/category/${c.name}`}
                   className="bg-white flex items-center gap-1 text-sm text-black border border-gray-200 rounded-lg p-2"
                 >
                   View all
@@ -111,7 +111,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
                   className="bg-white"
                   variant={"gooeyLeft"}
                   size={"sm"}
-                  onClick={() => mutate(c.categoryId!)}
+                  onClick={() => mutate(c.id!)}
                 >
                   <Trash2 className="h-5 w-5 text-gray-500" />
                 </Button>

@@ -1,10 +1,10 @@
-import EventDataTable from "components/eventDataTable";
+import EventDataTable, { CategoryInfoType } from "components/eventDataTable";
 import EventTab from "components/eventTab";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const LoadedEventPage = () => {
+const LoadedEventPage = ({ tableData }: { tableData: CategoryInfoType }) => {
   return (
     <div className="w-full bg-[#fafafa] h-screen pt-4 md:pt-10">
       <div className="flex flex-col gap-10 w-full px-5">
@@ -22,7 +22,7 @@ const LoadedEventPage = () => {
         <div className="w-full flex flex-col gap-14">
           <EventTab />
 
-          <EventDataTable />
+          <EventDataTable tableData={tableData} />
         </div>
       </div>
     </div>

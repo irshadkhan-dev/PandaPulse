@@ -10,6 +10,7 @@ import * as t from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { timestamp } from "drizzle-orm/mysql-core";
+import { relations } from "drizzle-orm";
 
 export const generateUniqueString = (length: number = 12): string => {
   let uniqueString = "";
@@ -51,14 +52,23 @@ const accounts = pgTable("account", {
   session_state: text("session_state"),
 });
 
+export const delivery = t.pgEnum("delivery", [
+  "PENDING",
+  "DELIVERED",
+  "FAILED",
+]);
+
 const categories = pgTable("category", {
-  categoryId: t.text("categoryId").$default(() => generateUniqueString(12)),
-  userId: text("userId").notNull(),
-  categoryName: t.text("categoryName").notNull(),
+  id: t.text("categoryId").$default(() => generateUniqueString(12)),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  name: t.text("name").notNull(),
   lastPing: t.text("lastPing").default("NEVER"),
   amount: t.integer("amount").default(0),
   clientUserEmail: t.text("clientUserEmail"),
   events: t.integer("events").default(0),
+  deliveryStatus: delivery("deliveryStatus").notNull().default("PENDING"),
   createdAt: t.timestamp("createdAt").notNull().defaultNow(),
   updatedAt: t.timestamp("updatedAt").notNull().defaultNow(),
 });

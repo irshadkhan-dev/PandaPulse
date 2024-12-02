@@ -18,7 +18,7 @@ export const CreateCategory = async (category: CreateCategoryType[]) => {
     for (const c of category) {
       const categoryTable = await db.insert(categories).values([
         {
-          categoryName: c.categoryName,
+          name: c.categoryName,
           userId,
         },
       ]);
@@ -52,7 +52,7 @@ export const DeleteCategory = async (categoryId: string) => {
   try {
     const deleteCategory = await db
       .delete(categories)
-      .where(eq(categories.categoryId, categoryId));
+      .where(eq(categories.id, categoryId));
   } catch (error) {
     console.log(error);
   }
@@ -61,7 +61,7 @@ export const DeleteCategory = async (categoryId: string) => {
 export const getCategoryById = async (categoryId: string) => {
   try {
     const data = await db.query.categories.findFirst({
-      where: (categories, { eq }) => eq(categories.categoryId, categoryId),
+      where: (categories, { eq }) => eq(categories.id, categoryId),
     });
 
     if (!data) return { error: "Error loading events try again!" };
@@ -74,15 +74,12 @@ export const getCategoryById = async (categoryId: string) => {
 
 export const getCategoryByName = async (categoryName: string) => {
   try {
-    const data = await db.query.categories.findFirst({
-      where: (categories, { eq }) => eq(categories.categoryName, categoryName),
+    return await db.query.categories.findFirst({
+      where: (categories, { eq }) => eq(categories.name, categoryName),
     });
-
-    if (!data) return { error: "Error loading the events" };
-
-    return { data };
   } catch (error) {
     console.log(error);
+    return { error: "Error loading events" };
   }
 };
 

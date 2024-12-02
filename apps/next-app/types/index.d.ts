@@ -23,8 +23,8 @@ interface User {
 
 interface CategoryTableProps {
   userId: string;
-  categoryId: string | null;
-  categoryName: string | null;
+  id: string | null;
+  name: string | null;
   amount: string | null;
   events: string | null;
   clientUserEmail: string | null;

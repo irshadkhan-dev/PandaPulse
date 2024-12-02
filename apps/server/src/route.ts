@@ -23,13 +23,20 @@ export function setupRoutes(app: Hono<{ Bindings: Env }>) {
 
 			const { plan, amount, ...other } = fields;
 			console.log(amount);
+
+			const updatedFields = {
+				events: Sql`${categories.events} + 1`,
+				...other,
+			};
+
+			if (category === 'sale') {
+				updatedFields.amount = Sql`${categories.amount} + ${amount}`;
+			}
+
 			const updateCategory = await db
 				.update(categories)
-				.set({
-					amount: Sql`${categories.amount} + ${amount}`,
-					events: Sql`${categories.events} + 1`,
-				})
-				.where(and(eq(categories.categoryName, category), eq(categories.userId, validateApiKey.userId)));
+				.set(updatedFields)
+				.where(and(eq(categories.name, category), eq(categories.userId, validateApiKey.userId)));
 
 			console.log(updateCategory);
 
