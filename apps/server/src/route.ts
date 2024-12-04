@@ -8,12 +8,14 @@ export function setupRoutes(app: Hono<{ Bindings: Env }>) {
 		try {
 			const { neon } = await import('@neondatabase/serverless');
 			const { drizzle } = await import('drizzle-orm/neon-http');
-			const { apikey, categories } = await import('@repo/db/schema');
+			const { apikey, categories, events } = await import('@repo/db/schema');
 
 			const sql = neon(c.env.DATABASE_URL);
 			const db = drizzle(sql, {
 				schema: {
 					apikey,
+					categories,
+					events,
 				},
 			});
 
@@ -21,26 +23,24 @@ export function setupRoutes(app: Hono<{ Bindings: Env }>) {
 
 			const { category, fields } = await c.req.json();
 
-			const { plan, amount, ...other } = fields;
-			console.log(amount);
+			const cat = await db.query.categories.findFirst({
+				where: (categories, { eq }) => eq(categories.name, category),
+			});
 
-			const updatedFields = {
-				events: Sql`${categories.events} + 1`,
-				...other,
-			};
+			const createEvent = await db.insert(events).values([
+				{
+					name: category,
+					fields: {
+						...fields,
+					},
+					userId: cat!.userId,
+					categoryId: cat!.id,
+				},
+			]);
 
-			if (category === 'sale') {
-				updatedFields.amount = Sql`${categories.amount} + ${amount}`;
-			}
+			console.log(createEvent);
 
-			const updateCategory = await db
-				.update(categories)
-				.set(updatedFields)
-				.where(and(eq(categories.name, category), eq(categories.userId, validateApiKey.userId)));
-
-			console.log(updateCategory);
-
-			return c.json(true);
+			return c.json(createEvent);
 		} catch (error) {
 			console.log(error);
 			return c.json(

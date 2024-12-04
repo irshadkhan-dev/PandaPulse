@@ -2,7 +2,7 @@
 import db from "@repo/db";
 import { categories, apikey } from "@repo/db/schema";
 import { auth } from "../../auth";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import crypto from "crypto";
 import { hashApiKey } from "lib/utils";
 
@@ -102,6 +102,17 @@ export const CreateApiKey = async () => {
     if (storeHashKey) {
       return { apiKey };
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetAllEvents = async (eventName: string) => {
+  try {
+    return await db.query.events.findMany({
+      where: (events, { eq }) =>
+        and(eq(events.name, eventName), eq(events.userId, userId)),
+    });
   } catch (error) {
     console.log(error);
   }

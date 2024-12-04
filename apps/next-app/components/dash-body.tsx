@@ -16,9 +16,6 @@ const DashboardBody = () => {
     queryKey: ["categories"],
     queryFn: async () => await GetAllCategory(),
     select: (data: any) => data?.categoryTable || [],
-    staleTime: 1000,
-    keepPreviousData: true,
-    refetchOnMount: true,
   });
 
   if (isPending || !categoryData)

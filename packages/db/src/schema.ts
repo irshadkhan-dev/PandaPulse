@@ -10,7 +10,7 @@ import * as t from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 import type { AdapterAccountType } from "next-auth/adapters";
 import { timestamp } from "drizzle-orm/mysql-core";
-import { relations } from "drizzle-orm";
+import { relations, Table } from "drizzle-orm";
 
 export const generateUniqueString = (length: number = 12): string => {
   let uniqueString = "";
@@ -59,16 +59,38 @@ export const delivery = t.pgEnum("delivery", [
 ]);
 
 const categories = pgTable("category", {
-  id: t.text("categoryId").$default(() => generateUniqueString(12)),
+  id: t
+    .text("id")
+    .primaryKey()
+    .$default(() => generateUniqueString(12)),
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   name: t.text("name").notNull(),
-  lastPing: t.text("lastPing").default("NEVER"),
-  amount: t.integer("amount").default(0),
-  clientUserEmail: t.text("clientUserEmail"),
-  events: t.integer("events").default(0),
+
+  createdAt: t.timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: t.timestamp("updatedAt").notNull().defaultNow(),
+});
+
+const events = pgTable("events", {
+  id: t
+    .text("id")
+    .primaryKey()
+    .$default(() => generateUniqueString(12)),
+
+  categoryId: t
+    .text()
+    .notNull()
+    .references(() => categories.id, { onDelete: "cascade" }),
+
+  userId: t
+    .text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+
+  name: t.text("name").notNull(),
   deliveryStatus: delivery("deliveryStatus").notNull().default("PENDING"),
+  fields: t.json("fields"),
   createdAt: t.timestamp("createdAt").notNull().defaultNow(),
   updatedAt: t.timestamp("updatedAt").notNull().defaultNow(),
 });
@@ -92,4 +114,4 @@ const sessions = pgTable("session", {
   expires: t.timestamp("expires", { mode: "date" }).notNull(),
 });
 
-export { users, accounts, sessions, categories, apikey };
+export { users, accounts, sessions, categories, apikey, events };

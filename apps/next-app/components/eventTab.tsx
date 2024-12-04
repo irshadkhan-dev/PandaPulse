@@ -1,8 +1,32 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import { ChartNoAxesColumnIncreasing } from "lucide-react";
+import { EventInfoType } from "./eventDataTable";
+import {
+  calculateTotalAmount,
+  calculateTotalRevenue,
+  isThisMonth,
+  isThisWeek,
+  isToday,
+} from "lib/utils";
 
-const EventTab = () => {
+const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
+  const todayEvents = eventsData.filter((event) => isToday(event.createdAt));
+  const thisWeekEvents = eventsData.filter((event) =>
+    isThisWeek(event.createdAt)
+  );
+  const thisMonthEvents = eventsData.filter((event) =>
+    isThisMonth(event.createdAt)
+  );
+
+  const todayTotal = calculateTotalAmount(todayEvents);
+  const thisWeekTotal = calculateTotalAmount(thisWeekEvents);
+  const thisMonthTotal = calculateTotalAmount(thisMonthEvents);
+
+  const todayRevenue = calculateTotalRevenue(todayEvents);
+  const thisWeekRevenue = calculateTotalRevenue(thisWeekEvents);
+  const thisMonthRevenue = calculateTotalRevenue(thisMonthEvents);
+
   return (
     <Tabs defaultValue="today" className="">
       <TabsList className="grid grid-cols-3 w-full max-w-sm">
@@ -13,8 +37,16 @@ const EventTab = () => {
 
       <TabsContent value="today" className="max-w-xl">
         <div className="flex gap-5 w-full">
-          <Card title="Total Events" date="Events Today" dynamicNumber={1} />
-          <Card title="Amount" date="Today" dynamicNumber={20.0} />
+          <Card
+            title="Total Events"
+            date="Events Today"
+            dynamicNumber={todayEvents.length}
+          />
+          <Card
+            title={todayEvents[0]?.name}
+            date="Today"
+            dynamicNumber={todayTotal}
+          />
         </div>
       </TabsContent>
 
@@ -23,9 +55,9 @@ const EventTab = () => {
           <Card
             title="Total Events"
             date="Events this week"
-            dynamicNumber={1}
+            dynamicNumber={thisWeekEvents.length}
           />
-          <Card title="Amount" date="this week" dynamicNumber={20.0} />
+          <Card title="Amount" date="this week" dynamicNumber={thisWeekTotal} />
         </div>
       </TabsContent>
 
@@ -34,9 +66,13 @@ const EventTab = () => {
           <Card
             title="Total Events"
             date="Events this month"
-            dynamicNumber={1}
+            dynamicNumber={thisMonthEvents.length}
           />
-          <Card title="Amount" date="this month" dynamicNumber={20.0} />
+          <Card
+            title="Amount"
+            date="this month"
+            dynamicNumber={thisMonthTotal}
+          />
         </div>
       </TabsContent>
     </Tabs>

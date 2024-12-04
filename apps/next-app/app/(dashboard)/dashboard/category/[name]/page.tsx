@@ -10,8 +10,8 @@ export default async function Page({
 }: {
   params: Promise<{ name: string }>;
 }) {
-  const categoryName = (await params).name;
-  console.log(categoryName);
+  const eventName = (await params).name;
+  console.log(eventName);
 
-  return <EventPage categoryName={categoryName} />;
+  return <EventPage eventName={eventName} />;
 }

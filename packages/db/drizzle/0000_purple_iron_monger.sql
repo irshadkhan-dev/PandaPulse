@@ -21,14 +21,9 @@ CREATE TABLE IF NOT EXISTS "apikey" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "category" (
-	"categoryId" text,
+	"id" text PRIMARY KEY NOT NULL,
 	"userId" text NOT NULL,
 	"name" text NOT NULL,
-	"lastPing" text DEFAULT 'NEVER',
-	"amount" integer DEFAULT 0,
-	"clientUserEmail" text,
-	"events" integer DEFAULT 0,
-	"deliveryStatus" "delivery" DEFAULT 'PENDING' NOT NULL,
 	"createdAt" timestamp DEFAULT now() NOT NULL,
 	"updatedAt" timestamp DEFAULT now() NOT NULL
 );
@@ -40,7 +35,7 @@ CREATE TABLE IF NOT EXISTS "session" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" text PRIMARY KEY DEFAULT '0d42b1a7-5d5b-4b77-9a8e-5ee016e026c7' NOT NULL,
+	"id" text PRIMARY KEY DEFAULT '7ef607fb-818d-436f-9a6f-51a6220b4a56' NOT NULL,
 	"email" text NOT NULL,
 	"name" text NOT NULL,
 	"plan" text DEFAULT 'free' NOT NULL,

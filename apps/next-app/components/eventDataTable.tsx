@@ -2,38 +2,28 @@
 import React from "react";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { DataTable } from "./data-table/data-table";
+import DataTable from "./data-table/data-table";
 
-export type CategoryInfoType = {
+export type EventInfoType = {
   id: string;
   name: string;
-  amount: string;
-  clientUserEmail: string;
+  fields: any;
   deliveryStatus: string;
+  createdAt: string;
+  updatedAt: string;
+  categoryId: string;
+  userId: string;
 };
 
-const EventDataTable = ({ tableData }: { tableData: CategoryInfoType }) => {
-  const data: CategoryInfoType[] = [{ ...tableData }];
-  console.log(data);
-  const columns: ColumnDef<CategoryInfoType>[] = [
-    {
-      accessorKey: data[0]!.name,
-      header: data[0]!.name,
-    },
-    {
-      accessorKey: data[0]!.amount,
-      header: data[0]?.amount,
-    },
-  ];
-
+const EventDataTable = ({ tableData }: { tableData: EventInfoType[] }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pb-20">
       <div>
         <span className="text-4xl font-semibold">Event Overview</span>
       </div>
 
-      <div>
-        <DataTable columns={columns} data={data} />
+      <div className=" bg-white border border-gray-300 rounded-lg ">
+        <DataTable tableData={tableData} />
       </div>
     </div>
   );

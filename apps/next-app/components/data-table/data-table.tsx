@@ -1,80 +1,67 @@
-"use client";
-
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { EventInfoType } from "components/eventDataTable";
+import React from "react";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}
+const DataTable = ({ tableData }: { tableData: EventInfoType[] }) => {
+  const field = tableData.map((t) => t.fields);
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const firstField: any = field[0];
+
+  const filteredData = tableData.map(
+    ({ id, createdAt, name, deliveryStatus, fields }) => ({
+      id,
+      createdAt,
+      name,
+      deliveryStatus,
+      fields,
+    })
+  );
 
   return (
-    <div className="rounded-md border bg-white p-4">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
+    <Table className="">
+      <TableCaption>A list of recent events</TableCaption>
+      <TableHeader className="">
+        <TableRow className="">
+          <TableHead className="md:py-4">Category</TableHead>
+          <TableHead className="max-md:hidden">Date</TableHead>
+          {Object.keys(firstField).map((key, index) => (
+            <TableHead key={index}>{key}</TableHead>
           ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-                className=""
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id} className="p-3">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+          <TableHead className="">Delivery Status</TableHead>
+        </TableRow>
+      </TableHeader>
+
+      <TableBody className="">
+        {filteredData.map((t) => (
+          <>
+            <TableRow key={t.id}>
+              <TableCell>{t.name}</TableCell>
+              <TableCell className="md:py-4 max-md:hidden">
+                {new Date(t.createdAt).toLocaleString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
               </TableCell>
+              {Object.entries(t.fields).map(([key, value]) => (
+                <TableCell key={key}>{String(value)}</TableCell>
+              ))}
+              <TableCell className="">{t.deliveryStatus}</TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
+          </>
+        ))}
+      </TableBody>
+    </Table>
   );
-}
+};
+
+export default DataTable;
