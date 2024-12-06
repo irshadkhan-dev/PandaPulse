@@ -1,16 +1,10 @@
-import EventDataTable, { EventInfoType } from "components/eventDataTable";
-import EventTab from "components/eventTab";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const LoadedEventPage = ({
-  tableData,
-  eventName,
-}: {
-  tableData: EventInfoType[];
-  eventName: string;
-}) => {
+import SettingBody from "./setting-body";
+
+const Page = () => {
   return (
     <div className="w-full bg-[#fafafa] h-screen pt-4 md:pt-10">
       <div className="flex flex-col gap-10 w-full px-5">
@@ -21,17 +15,16 @@ const LoadedEventPage = ({
             </div>
           </Link>
 
-          <span className="md:text-4xl text-2xl">💰 Sale Events</span>
+          <span className="md:text-4xl text-2xl">Account Setting</span>
         </div>
-        <div className="w-full h-px bg-gray-200" />
 
-        <div className="w-full flex flex-col gap-14">
-          <EventTab eventsData={tableData} eventName={eventName} />
-          <EventDataTable tableData={tableData} />
+        <div className="w-full h-px bg-gray-200" />
+        <div className="w-full bg-white/5 backdrop-blur-lg transition-all z-[100]  h-[70vh] border border-gray-200 rounded-lg px-10 pt-10">
+          <SettingBody />
         </div>
       </div>
     </div>
   );
 };
 
-export default LoadedEventPage;
+export default Page;

@@ -10,7 +10,13 @@ import {
   isToday,
 } from "lib/utils";
 
-const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
+const EventTab = ({
+  eventsData,
+  eventName,
+}: {
+  eventsData: EventInfoType[];
+  eventName: string;
+}) => {
   const todayEvents = eventsData.filter((event) => isToday(event.createdAt));
   const thisWeekEvents = eventsData.filter((event) =>
     isThisWeek(event.createdAt)
@@ -43,9 +49,21 @@ const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
             dynamicNumber={todayEvents.length}
           />
           <Card
-            title={todayEvents[0]?.name}
+            title={
+              eventName === "sale"
+                ? "Amount"
+                : eventName === "signup"
+                  ? "Total Signup"
+                  : "Revenue"
+            }
             date="Today"
-            dynamicNumber={todayTotal}
+            dynamicNumber={
+              eventName === "sale"
+                ? todayTotal
+                : eventName === "signup"
+                  ? todayEvents.length
+                  : todayRevenue
+            }
           />
         </div>
       </TabsContent>
@@ -57,7 +75,23 @@ const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
             date="Events this week"
             dynamicNumber={thisWeekEvents.length}
           />
-          <Card title="Amount" date="this week" dynamicNumber={thisWeekTotal} />
+          <Card
+            title={
+              eventName === "sale"
+                ? "Amount"
+                : eventName === "signup"
+                  ? "Total Signup"
+                  : "Revenue"
+            }
+            date="this week"
+            dynamicNumber={
+              eventName === "sale"
+                ? thisWeekTotal
+                : eventName === "signup"
+                  ? thisWeekEvents.length
+                  : thisWeekRevenue
+            }
+          />
         </div>
       </TabsContent>
 
@@ -69,9 +103,21 @@ const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
             dynamicNumber={thisMonthEvents.length}
           />
           <Card
-            title="Amount"
+            title={
+              eventName === "sale"
+                ? "Amount"
+                : eventName === "signup"
+                  ? "Total Signup"
+                  : "Revenue"
+            }
             date="this month"
-            dynamicNumber={thisMonthTotal}
+            dynamicNumber={
+              eventName === "sale"
+                ? thisMonthTotal
+                : eventName === "signup"
+                  ? thisMonthEvents.length
+                  : thisMonthRevenue
+            }
           />
         </div>
       </TabsContent>
@@ -79,7 +125,7 @@ const EventTab = ({ eventsData }: { eventsData: EventInfoType[] }) => {
   );
 };
 
-const Card = ({
+export const Card = ({
   title,
   date,
   dynamicNumber,

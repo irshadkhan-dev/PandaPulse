@@ -12,7 +12,8 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
       <QueryClientProvider client={client}>
-        {children}
+        <div className="">{children}</div>
+
         <ReactQueryDevtools initialIsOpen={true} />
       </QueryClientProvider>
     </SessionProvider>

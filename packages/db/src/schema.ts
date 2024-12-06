@@ -31,6 +31,7 @@ const users = pgTable("user", {
   email: t.text("email").unique().notNull(),
   name: t.text("name").notNull(),
   plan: t.text("plan").notNull().default("free"),
+  discordId: t.text("discordId"),
   emailVerified: t.timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
   createdAt: t.timestamp().defaultNow().notNull(),

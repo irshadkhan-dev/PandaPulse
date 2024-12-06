@@ -3,13 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { CreateApiKey } from "lib/actions/user.actions";
-import { hashApiKey } from "lib/utils";
+
 import { Check, Copy } from "lucide-react";
 import { useState, useCallback } from "react";
-
-declare type ApiData = {
-  apiKey: string;
-};
 
 export const CopyToClipboard = () => {
   const [isCopied, setIsCopied] = useState(false);
@@ -31,10 +27,6 @@ export const CopyToClipboard = () => {
 
   if (isError) {
     return <div>Error generating API key</div>;
-  }
-
-  if (data) {
-    console.log(data);
   }
 
   return (

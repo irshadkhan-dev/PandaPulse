@@ -1,17 +1,19 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { cn, GetDate } from "@/lib/utils";
-import { DeleteCategory } from "lib/actions/user.actions";
+import { DeleteCategory, getUserData } from "lib/actions/user.actions";
 import { ArrowRight, BarChart2, Clock, Trash2 } from "lucide-react";
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 
 type ContextType = {
   previousData: unknown;
 };
 
 const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const { fullDate } = GetDate();
   const { mutate, isError, err } = useMutation({
@@ -19,12 +21,10 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
     onMutate: async (categoryId: string) => {
       await queryClient.cancelQueries({ queryKey: ["categories"] });
 
-      //this gets the query data which is cached
       const previousData = await queryClient.getQueryData({
         queryKey: ["categories"],
       });
 
-      // this function will filter out the categories which should not be deleted and set it to queries removing the category which should be deleted
       queryClient.setQueryData(
         ["categories"],
         (old: { categoryTable: CategoryTableProps[] } | undefined) => {
@@ -50,7 +50,13 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
     },
   });
 
-  if (isError) return <div>{err}</div>;
+  if (isError) {
+    toast({
+      title: "Failed to delete the event",
+      variant: "destructive",
+    });
+  }
+
   return (
     <div className="bg-[#fafafa] w-full">
       <div className="flex max-md:flex-col gap-8 md:gap-14 flex-wrap items-center">
@@ -94,14 +100,14 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
                 </div>
                 <div className="flex gap-0.5">
                   <BarChart2 className="h-5 w-5 text-brand-400" />
-                  Event this month: <span>{c.events}</span>
+                  Event this month: <span>10</span>
                 </div>
               </div>
 
               <div className="flex justify-between items-center">
                 <Link
                   href={`/dashboard/category/${c.name}`}
-                  className="bg-white flex items-center gap-1 text-sm text-black border border-gray-200 rounded-lg p-2"
+                  className="bg-white flex items-center gap-1 text-sm text-black border hover:border-brand-700 border-gray-200 rounded-lg p-2"
                 >
                   View all
                   <ArrowRight className="h-5 w-5" />
@@ -113,7 +119,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
                   size={"sm"}
                   onClick={() => mutate(c.id!)}
                 >
-                  <Trash2 className="h-5 w-5 text-gray-500" />
+                  <Trash2 className="h-5 w-5 text-gray-500 hover:text-red-500" />
                 </Button>
               </div>
             </div>

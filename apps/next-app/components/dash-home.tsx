@@ -6,6 +6,7 @@ import Image from "next/image";
 import React from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AddCatModal from "./addCatModal";
+import { useToast } from "@/hooks/use-toast";
 
 const DashHome = () => {
   const queryClient = useQueryClient();
@@ -16,12 +17,10 @@ const DashHome = () => {
     },
 
     onSuccess: (newCategory: any) => {
-      // Invalidate and refetch the categories query
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
     onError: (error: any) => {
       console.error("Error creating category:", error);
-      // Here you could also add toast notification for error
     },
   });
 
@@ -34,7 +33,7 @@ const DashHome = () => {
   };
 
   return (
-    <div className="bg-white rounded border border-gray-200 flex flex-col gap-4 items-center">
+    <div className="bg-white rounded border border-gray-200 flex flex-col gap-4 items-center h-[60vh]">
       <div>
         <Image
           src={"/icons/pandaWave.png"}

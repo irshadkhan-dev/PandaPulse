@@ -38,10 +38,10 @@ const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a className="flex gap-2">
+                <Link className="flex gap-2" href={"/dashboard"}>
                   <Home />
                   <span>DashBoard</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -52,10 +52,10 @@ const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild>
-                <a className="flex gap-2">
+                <Link className="flex gap-2" href={"/upgrade"}>
                   <Gem />
                   <span>Upgrade</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>
@@ -73,10 +73,10 @@ const AppSideBar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
               </SidebarMenuButton>
 
               <SidebarMenuButton asChild>
-                <a className="flex gap-2">
+                <Link className="flex gap-2" href={"/setting"}>
                   <Settings />
                   <span>Account Setting</span>
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

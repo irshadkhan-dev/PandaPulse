@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { EventInfoType } from "components/eventDataTable";
 import React from "react";
 
@@ -55,7 +56,18 @@ const DataTable = ({ tableData }: { tableData: EventInfoType[] }) => {
               {Object.entries(t.fields).map(([key, value]) => (
                 <TableCell key={key}>{String(value)}</TableCell>
               ))}
-              <TableCell className="">{t.deliveryStatus}</TableCell>
+              <TableCell>
+                <div
+                  className={cn("w-24 rounded-xl text-center", {
+                    "bg-green-300 text-green-900":
+                      t.deliveryStatus === "DELIVERED",
+                    "bg-blue-300 text-blue-900": t.deliveryStatus === "PENDING",
+                    "bg-red-300 text-red-900": t.deliveryStatus === "FAILED",
+                  })}
+                >
+                  {t.deliveryStatus}
+                </div>
+              </TableCell>
             </TableRow>
           </>
         ))}

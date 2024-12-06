@@ -1,6 +1,6 @@
-import '@radix-ui/react-dialog';
+import "@radix-ui/react-dialog";
 
-declare module '@radix-ui/react-dialog' {
+declare module "@radix-ui/react-dialog" {
   interface DialogContentProps extends React.HTMLAttributes<HTMLDivElement> {
     className?: string;
   }
@@ -10,4 +10,4 @@ declare module '@radix-ui/react-dialog' {
   interface DialogTriggerProps extends React.HTMLAttributes<HTMLButtonElement> {
     className?: string;
   }
-} 
+}

@@ -1,8 +1,8 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import { usePathname } from "next/navigation";
 import React from "react";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import AddCatModal from "./addCatModal";
 
 const DashboardHeader = () => {

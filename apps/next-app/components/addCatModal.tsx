@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+
 import {
   Dialog,
   DialogContent,
@@ -16,21 +16,16 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-
-import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
-import { Circle } from "lucide-react";
+
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateCategory } from "lib/actions/user.actions";
-
-const colorTypee = ["red", "yellow", "green", "blue"] as const;
-const emojiTypee = ["🙋‍♂️", "💰", "🚀"] as const;
+import { useToast } from "@/hooks/use-toast";
 
 const FormSchema = z.object({
   categoryName: z.string(),
@@ -38,6 +33,7 @@ const FormSchema = z.object({
 
 const AddCatModal = () => {
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -46,31 +42,27 @@ const AddCatModal = () => {
     },
   });
 
-  const { mutate, isError, err, isPending } = useMutation({
+  const { mutate, isError, isPending } = useMutation({
     mutationFn: async (categoryName: CreateCategoryType[]) => {
-      console.log(categoryName);
       return await CreateCategory(categoryName);
     },
 
-    onSuccess: (newCategory: any) => {
-      // Invalidate and refetch the categories query
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
-    },
-
-    onError: (error: any) => {
-      console.error("Error creating category:", error);
-      // Here you could also add toast notification for error
     },
   });
 
   const onSubmit = (data: z.infer<typeof FormSchema>) => {
     const categoryName = [data];
-
     mutate(categoryName);
   };
 
   if (isError) {
-    <div>error craeting events {err}</div>;
+    toast({
+      title: "Error Creating Events",
+      description: "Try again creating Events",
+      variant: "destructive",
+    });
   }
 
   return (
