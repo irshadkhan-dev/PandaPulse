@@ -2,14 +2,19 @@ import { Hono } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import type { Env } from './types';
 import { Context } from 'hono';
+import { eq } from 'drizzle-orm';
 
 declare module 'hono' {
 	interface ContextVariableMap {
-		validateApiKey: {
-			userId: string;
-			createdAt: Date | null;
-			hashedKey: string;
-			isActive: boolean | null;
+		validatedUser: {
+			id: string;
+			name: string;
+			email: string;
+			plan: string;
+			discordId: string | null;
+			emailVerified: Date | null;
+			image: string | null;
+			createdAt: Date;
 		};
 	}
 }
@@ -18,19 +23,18 @@ const ValidateApiKey = createMiddleware<{ Bindings: Env }>(async (c, next) => {
 	try {
 		const { neon } = await import('@neondatabase/serverless');
 		const { drizzle } = await import('drizzle-orm/neon-http');
-		const { apikey, categories } = await import('@repo/db/schema');
+		const { apikey, categories, users } = await import('@repo/db/schema');
 
 		const sql = neon(c.env.DATABASE_URL);
 		const db = drizzle(sql, {
 			schema: {
 				apikey,
+				users,
 			},
 		});
 
 		const headerKey = c.req.header();
 		const authorization = headerKey?.authorization;
-
-		console.log(authorization);
 
 		if (!authorization) {
 			return c.json({ error: 'API key is required' }, 400);
@@ -49,11 +53,17 @@ const ValidateApiKey = createMiddleware<{ Bindings: Env }>(async (c, next) => {
 			where: (apikey, { eq }) => eq(apikey.hashedKey, hashHex),
 		});
 
-		console.log(validateApiKey);
+		if (!validateApiKey) return c.json({ error: 'API key is invalid' });
 
-		if (!validateApiKey) return c.json({ error: 'Error' });
+		const validatedUser = await db.query.users.findFirst({
+			where: (users, { eq }) => eq(users.id, validateApiKey.userId),
+		});
 
-		c.set('validateApiKey', validateApiKey);
+		if (!validatedUser) {
+			return c.json({ error: 'No user with that API key! Generate new API key!' });
+		}
+
+		c.set('validatedUser', validatedUser);
 
 		await next();
 	} catch (error) {

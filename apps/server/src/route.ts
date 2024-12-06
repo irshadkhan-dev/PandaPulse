@@ -2,13 +2,14 @@ import { Hono } from 'hono';
 import type { Env } from './types';
 import { and, eq, AnyColumn, sql as Sql } from 'drizzle-orm';
 import ValidateApiKey from './middleware';
+import { DiscordClient } from './discord';
 
 export function setupRoutes(app: Hono<{ Bindings: Env }>) {
-	app.get('/database', ValidateApiKey, async (c) => {
+	app.get('/api/v1/events', ValidateApiKey, async (c) => {
 		try {
 			const { neon } = await import('@neondatabase/serverless');
 			const { drizzle } = await import('drizzle-orm/neon-http');
-			const { apikey, categories, events } = await import('@repo/db/schema');
+			const { apikey, categories, events, users } = await import('@repo/db/schema');
 
 			const sql = neon(c.env.DATABASE_URL);
 			const db = drizzle(sql, {
@@ -16,38 +17,86 @@ export function setupRoutes(app: Hono<{ Bindings: Env }>) {
 					apikey,
 					categories,
 					events,
+					users,
 				},
 			});
 
-			const validateApiKey = c.get('validateApiKey');
+			const user = c.get('validatedUser');
 
-			const { category, fields } = await c.req.json();
+			const discordUserId = user.discordId;
+
+			if (!discordUserId) {
+				return c.json({ msg: 'No Discord Id Provided' });
+			}
+
+			const { category, fields }: { category: string; fields: any } = await c.req.json();
 
 			const cat = await db.query.categories.findFirst({
-				where: (categories, { eq }) => eq(categories.name, category),
+				where: (categories, { eq }) => and(eq(categories.name, category), eq(categories.userId, user!.id)),
 			});
 
-			const createEvent = await db.insert(events).values([
-				{
-					name: category,
-					fields: {
-						...fields,
+			if (!cat) {
+				return c.json({ Error: 'No category found related to this category' });
+			}
+
+			const discordClient = new DiscordClient(c.env.DISCORD_BOT_TOKEN);
+			const dmChannel = await discordClient.createDM(discordUserId);
+
+			const field = Object.entries(fields).map(([key, value]) => ({
+				name: key.charAt(0).toUpperCase() + key.slice(1),
+				value: `${value}`,
+				inline: true,
+			}));
+
+			const embed = {
+				title: `🔔 ${category.charAt(0).toUpperCase() + category.slice(1)}`,
+				description: `A new ${category} event has occured.`,
+				timestamp: new Date().toISOString(),
+				fields: field,
+			};
+
+			const createEvent = await db
+				.insert(events)
+				.values([
+					{
+						name: category,
+						fields: {
+							...fields,
+						},
+						userId: user.id,
+						categoryId: cat!.id,
 					},
-					userId: cat!.userId,
-					categoryId: cat!.id,
-				},
-			]);
+				])
+				.returning();
 
-			console.log(createEvent);
+			try {
+				await discordClient.sendEmbed(dmChannel.id, embed);
+				await db
+					.update(events)
+					.set({
+						deliveryStatus: 'DELIVERED',
+					})
+					.where(eq(events.id, createEvent[0].id));
+			} catch (error) {
+				await db
+					.update(events)
+					.set({
+						deliveryStatus: 'FAILED',
+					})
+					.where(eq(events.id, createEvent[0].id));
 
-			return c.json(createEvent);
+				console.log(error);
+
+				return c.json({ Message: 'Error processing event' });
+			}
+
+			return c.json({ message: 'Events processed successfully', eventId: createEvent[0].id });
 		} catch (error) {
-			console.log(error);
 			return c.json(
 				{
-					error,
+					message: 'Error',
 				},
-				400,
+				500,
 			);
 		}
 	});
