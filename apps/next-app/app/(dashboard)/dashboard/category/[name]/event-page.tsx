@@ -6,15 +6,21 @@ import EmptyEventPage from "./emptyEventPage";
 import LoadedEventPage from "./loadedEventPage";
 import { Loader2 } from "lucide-react";
 
-const EventPage = ({ eventName }: { eventName: string }) => {
+const EventPage = ({
+  eventName,
+}: {
+  eventName: "sale" | "signup" | "revenue";
+}) => {
   const { data, isPending, isError, err } = useQuery({
     queryKey: ["category"],
     queryFn: async () => await GetAllEvents(eventName),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
   });
 
-  if (isError) return <div>{err}</div>;
+  if (isError) {
+    return (
+      <div className="error-message">Something went wrong: {err.message}</div>
+    );
+  }
 
   if (isPending)
     return (

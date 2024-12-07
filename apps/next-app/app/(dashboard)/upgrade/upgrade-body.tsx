@@ -1,12 +1,8 @@
 "use client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import {
-  GetAllCategory,
-  GetEvents,
-  getUserData,
-} from "lib/actions/user.actions";
-import { ChartNoAxesColumnIncreasing, Divide, ArrowRight } from "lucide-react";
+import { getUserData } from "lib/actions/user.actions";
+import { ChartNoAxesColumnIncreasing, ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -19,7 +15,12 @@ const UpgradeBody = () => {
   });
 
   if (isError) return <div>Error loading data</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading)
+    return (
+      <div className="w-full bg-white/5 backdrop-blur-lg transition-all z-[100] h-full flex items-center justify-center border border-gray-200 rounded-lg">
+        <Loader2 className="animate-spin w-10 h-10 text-brand-700" />
+      </div>
+    );
 
   const startDate = data[0].createdAt;
   const oneMonthLater = new Date(startDate);

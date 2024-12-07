@@ -3,7 +3,7 @@ import EventPage from "./event-page";
 export default async function Page({
   params,
 }: {
-  params: Promise<{ name: string }>;
+  params: Promise<{ name: "sale" | "signup" | "revenue" }>;
 }) {
   const eventName = (await params).name;
 

@@ -1,5 +1,5 @@
 import EventDataTable, { EventInfoType } from "components/eventDataTable";
-import EventTab from "components/eventTab";
+import EventTab, { EventNameType } from "components/eventTab";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -9,7 +9,7 @@ const LoadedEventPage = ({
   eventName,
 }: {
   tableData: EventInfoType[];
-  eventName: string;
+  eventName: "sale" | "signup" | "revenue";
 }) => {
   return (
     <div className="w-full bg-[#fafafa] h-screen pt-4 md:pt-10">
