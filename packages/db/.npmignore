@@ -1,0 +1,6 @@
+src/
+.env
+drizzle/
+*.log
+tsconfig.json
+migrate.ts

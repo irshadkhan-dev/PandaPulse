@@ -5,11 +5,11 @@ import ValidateApiKey from './middleware';
 import { DiscordClient } from './discord';
 
 export function setupRoutes(app: Hono<{ Bindings: Env }>) {
-	app.get('/api/v1/events', ValidateApiKey, async (c) => {
+	app.post('/api/v1/events', ValidateApiKey, async (c) => {
 		try {
 			const { neon } = await import('@neondatabase/serverless');
 			const { drizzle } = await import('drizzle-orm/neon-http');
-			const { apikey, categories, events, users } = await import('@repo/db/schema');
+			const { apikey, categories, events, users } = await import('@irshadkhan-dev/pandapulse-db/schema');
 
 			const sql = neon(c.env.DATABASE_URL);
 			const db = drizzle(sql, {

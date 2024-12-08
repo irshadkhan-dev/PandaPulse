@@ -8,7 +8,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import AddCatModal from "./addCatModal";
 import { useToast } from "@/hooks/use-toast";
 
-// Type definition for category creation
 type CreateCategoryType = {
   categoryName: string;
 };
@@ -33,10 +32,8 @@ const DashHome: React.FC = () => {
       }
     },
     onSuccess: (newCategory: any) => {
-      // Invalidate and refetch categories
       queryClient.invalidateQueries({ queryKey: ["categories"] });
 
-      // Show success toast
       toast({
         title: "Categories Created",
         description: "Quick start categories have been added successfully!",
@@ -44,7 +41,6 @@ const DashHome: React.FC = () => {
       });
     },
     onError: (error: any) => {
-      // Show error toast
       toast({
         title: "Category Creation Failed",
         description:

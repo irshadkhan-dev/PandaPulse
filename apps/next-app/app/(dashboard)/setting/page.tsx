@@ -19,7 +19,7 @@ const Page = () => {
         </div>
 
         <div className="w-full h-px bg-gray-200" />
-        <div className="w-full bg-white/5 backdrop-blur-lg transition-all z-[100]  h-[70vh] border border-gray-200 rounded-lg px-10 pt-10">
+        <div className="w-full  h-[70vh] border border-gray-200 rounded-lg px-10 pt-10">
           <SettingBody />
         </div>
       </div>

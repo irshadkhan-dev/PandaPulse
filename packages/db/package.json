@@ -1,20 +1,34 @@
 {
-  "name": "@repo/db",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "@irshadkhan-dev/pandapulse-db",
+  "version": "0.0.1",
+  "description": "Shared database schema and utilities for PandaPulse",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./dist/schema.js"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "pnpm run clean && tsc",
+    "clean": "rimraf dist",
+    "prepublishOnly": "pnpm run build",
     "db:generate": "drizzle-kit generate --schema=./src/schema.ts --dialect=postgresql --out=./drizzle",
     "db:migrate": "tsx migrate.ts"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "drizzle",
+    "orm",
+    "postgresql",
+    "database"
+  ],
+  "author": "Irshad Khan",
   "license": "ISC",
-  "exports": {
-    ".": "./src/index.ts",
-    "./schema": "./src/schema.ts"
-  },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.7.4",
     "@neondatabase/serverless": "^0.10.3",
@@ -29,6 +43,8 @@
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.28.0",
     "postgres": "^3.4.5",
-    "tsx": "^4.19.2"
+    "rimraf": "^5.0.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.5.4"
   }
 }

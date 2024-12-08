@@ -1,16 +1,7 @@
-import {
-  pgTable,
-  serial,
-  text,
-  doublePrecision,
-  numeric,
-  primaryKey,
-} from "drizzle-orm/pg-core";
+import { pgTable, text } from "drizzle-orm/pg-core";
 import * as t from "drizzle-orm/pg-core";
 import { v4 as uuid } from "uuid";
 import type { AdapterAccountType } from "next-auth/adapters";
-import { timestamp } from "drizzle-orm/mysql-core";
-import { relations, Table } from "drizzle-orm";
 
 export const generateUniqueString = (length: number = 12): string => {
   let uniqueString = "";

@@ -2,7 +2,6 @@ import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 
 import {
-  CirclePlus,
   PhoneCall,
   VideoIcon,
   PinIcon,
@@ -13,7 +12,7 @@ import {
 } from "lucide-react";
 import PandaIcon from "./PandaIcon";
 import DisMsg from "./DisMsg";
-import { DisMsgContent } from "lib/resource";
+
 import DisSideBar from "./DisSideBar";
 import DirectMsgTab from "./DirectMsgTab";
 import { AnimatedList } from "./animatedList";

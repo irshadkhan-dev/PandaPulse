@@ -8,7 +8,6 @@ import { ArrowRight, BarChart2, Clock, Trash2 } from "lucide-react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
-// Type definitions
 type CategoryTableProps = {
   id?: string;
   name: string;
@@ -25,18 +24,13 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
   const { fullDate } = GetDate();
 
   const { mutate, isError, error } = useMutation({
-    // Category deletion mutation
     mutationFn: async (categoryId: string) => await DeleteCategory(categoryId),
 
-    // Optimistic update
     onMutate: async (categoryId: string) => {
-      // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey: ["categories"] });
 
-      // Snapshot the previous data
       const previousData = queryClient.getQueryData(["categories"]);
 
-      // Optimistically update the cache
       queryClient.setQueryData(
         ["categories"],
         (old: { categoryTable: CategoryTableProps[] } | undefined) => {
@@ -53,12 +47,9 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
       return { previousData };
     },
 
-    // Error handling
     onError: (err: any, categoryId: string, context: ContextType) => {
-      // Rollback to previous data on error
       queryClient.setQueryData(["categories"], context?.previousData);
 
-      // Show error toast
       toast({
         title: "Failed to Delete Category",
         description:
@@ -69,13 +60,11 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
       });
     },
 
-    // Always invalidate queries to ensure fresh data
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
     },
   });
 
-  // Category color mapping
   const getCategoryColor = (name: string) => {
     switch (name) {
       case "sale":
@@ -89,7 +78,6 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
     }
   };
 
-  // Category emoji mapping
   const getCategoryEmoji = (name: string) => {
     switch (name) {
       case "sale":

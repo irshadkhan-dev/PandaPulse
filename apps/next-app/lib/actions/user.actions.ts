@@ -1,6 +1,11 @@
 "use server";
-import db from "@repo/db";
-import { categories, apikey, users, events } from "@repo/db/schema";
+import db from "@irshadkhan-dev/pandapulse-db";
+import {
+  categories,
+  apikey,
+  users,
+  events,
+} from "@irshadkhan-dev/pandapulse-db/schema";
 import { auth } from "../../auth";
 import { and, eq } from "drizzle-orm";
 import crypto from "crypto";
@@ -111,16 +116,6 @@ export const GetAllEvents = async (eventName: string) => {
     return await db.query.events.findMany({
       where: (events, { eq }) =>
         and(eq(events.name, eventName), eq(events.userId, userId)),
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const GetEvents = async () => {
-  try {
-    return await db.query.events.findMany({
-      where: (events, { eq }) => eq(events.userId, userId),
     });
   } catch (error) {
     console.log(error);

@@ -8,9 +8,8 @@ import DiscordHomeButton from "./discordHomeButton";
 import SignOutBtn from "./signOutBtn";
 
 const Navbar = async () => {
-  // const session = await auth();
-  // const user: User = session?.user;
-  const user = true;
+  const session = await auth();
+  const user: User = session?.user;
 
   return (
     <div className="border-b border-gray-200 w-full flex h-14 backdrop-blur-lg bg-white/75 sticky top-0 transition-all z-[100]">

@@ -13,8 +13,10 @@ import {
 interface EventInfoType {
   id: string;
   createdAt: Date | string;
-  amount?: number;
-  revenue?: number;
+  fields: {
+    amount?: number;
+    revenue?: number;
+  };
 }
 
 export type EventNameType = {
@@ -39,11 +41,15 @@ const calculateMetrics = (
   events: EventInfoType[],
   metricType: "amount" | "count" | "revenue"
 ): number => {
+  console.log(events);
   switch (metricType) {
     case "amount":
-      return events.reduce((sum, event) => sum + (event.amount || 0), 0);
+      return events.reduce((sum, event) => sum + (event.fields.amount || 0), 0);
     case "revenue":
-      return events.reduce((sum, event) => sum + (event.revenue || 0), 0);
+      return events.reduce(
+        (sum, event) => sum + (event.fields.revenue || 0),
+        0
+      );
     case "count":
       return events.length;
     default:
@@ -131,6 +137,8 @@ const EventTab: React.FC<{
     };
   }, [eventName, eventGroups]);
 
+  console.log(metrics);
+
   // Metric title mapping
   const getMetricTitle = () => {
     switch (eventName) {
@@ -162,6 +170,7 @@ const EventTab: React.FC<{
               : "thisMonth";
 
         const { eventCount, metric } = metrics[periodKey];
+        console.log(eventCount, metric);
         const periodLabel =
           period === "today"
             ? "Today"

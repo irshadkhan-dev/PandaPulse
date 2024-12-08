@@ -1,8 +1,5 @@
-import { Hono } from 'hono';
 import { createMiddleware } from 'hono/factory';
 import type { Env } from './types';
-import { Context } from 'hono';
-import { eq } from 'drizzle-orm';
 
 declare module 'hono' {
 	interface ContextVariableMap {
@@ -23,7 +20,7 @@ const ValidateApiKey = createMiddleware<{ Bindings: Env }>(async (c, next) => {
 	try {
 		const { neon } = await import('@neondatabase/serverless');
 		const { drizzle } = await import('drizzle-orm/neon-http');
-		const { apikey, categories, users } = await import('@repo/db/schema');
+		const { apikey, users } = await import('@irshadkhan-dev/pandapulse-db/schema');
 
 		const sql = neon(c.env.DATABASE_URL);
 		const db = drizzle(sql, {
