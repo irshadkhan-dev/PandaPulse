@@ -31,7 +31,7 @@ const DashHome: React.FC = () => {
         throw err;
       }
     },
-    onSuccess: (newCategory: any) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categories"] });
 
       toast({

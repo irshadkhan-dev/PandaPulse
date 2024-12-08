@@ -23,7 +23,7 @@ const DashEvents = ({ data }: { data: CategoryTableProps[] }) => {
   const queryClient = useQueryClient();
   const { fullDate } = GetDate();
 
-  const { mutate, isError, error } = useMutation({
+  const { mutate, error } = useMutation({
     mutationFn: async (categoryId: string) => await DeleteCategory(categoryId),
 
     onMutate: async (categoryId: string) => {

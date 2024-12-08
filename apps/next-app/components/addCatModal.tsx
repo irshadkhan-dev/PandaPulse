@@ -27,6 +27,10 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CreateCategory } from "lib/actions/user.actions";
 import { useToast } from "@/hooks/use-toast";
 
+type CreateCategoryType = {
+  categoryName: string;
+};
+
 const FormSchema = z.object({
   categoryName: z.string(),
 });

@@ -24,7 +24,6 @@ const FormSchema = z.object({
 });
 
 const SettingBody = () => {
-  const { toast } = useToast();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -32,7 +31,7 @@ const SettingBody = () => {
     },
   });
 
-  const { mutate, isPending, isError, isSuccess } = useMutation({
+  const { mutate, isPending, isError } = useMutation({
     mutationKey: ["discordId"],
     mutationFn: async (discordId: string) => await SaveDiscordId(discordId),
   });

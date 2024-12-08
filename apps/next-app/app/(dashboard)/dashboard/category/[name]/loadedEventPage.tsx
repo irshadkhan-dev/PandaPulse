@@ -1,5 +1,5 @@
 import EventDataTable, { EventInfoType } from "components/eventDataTable";
-import EventTab, { EventNameType } from "components/eventTab";
+import EventTab from "components/eventTab";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import React from "react";

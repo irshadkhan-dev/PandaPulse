@@ -1,7 +1,7 @@
 "use client";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetAllEvents, getCategoryByName } from "lib/actions/user.actions";
-import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { GetAllEvents } from "lib/actions/user.actions";
+import React from "react";
 import EmptyEventPage from "./emptyEventPage";
 import LoadedEventPage from "./loadedEventPage";
 import { Loader2 } from "lucide-react";

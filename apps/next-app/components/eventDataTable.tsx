@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 
-import { ColumnDef } from "@tanstack/react-table";
 import DataTable from "./data-table/data-table";
 
 export type EventInfoType = {

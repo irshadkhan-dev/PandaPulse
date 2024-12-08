@@ -11,8 +11,17 @@ import { and, eq } from "drizzle-orm";
 import crypto from "crypto";
 import { hashApiKey } from "lib/utils";
 
-const session = await auth();
-const userId = session?.user.id;
+let session: any;
+let userId: string;
+
+export const initialize = async () => {
+  session = await auth();
+  userId = session?.user.id;
+};
+
+type CreateCategoryType = {
+  categoryName: string;
+};
 
 export const CreateCategory = async (category: CreateCategoryType[]) => {
   try {

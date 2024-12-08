@@ -1,6 +1,6 @@
 import React from "react";
 import { SettingsIcon, User } from "lucide-react";
-import { InboxIcon, HeadphonesIcon, Settings2Icon, Mic } from "lucide-react";
+import { InboxIcon, HeadphonesIcon, Mic } from "lucide-react";
 import PandaIcon from "./PandaIcon";
 import DisNameIcon from "./DisNameIcon";
 
